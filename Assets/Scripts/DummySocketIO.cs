@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 
 public class DummySocketIO : MonoBehaviour
 {
+
     struct Message {
         public string msg;
         public string device;
@@ -20,7 +21,7 @@ public class DummySocketIO : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        socket = IO.Socket("http://192.168.43.183:3000");
+        socket = IO.Socket("http://10.212.111.122:3000");
         socket.On (Socket.EVENT_CONNECT, () => {
             // Access to Unity UI is not allowed in a background thread, so let's put into a shared variable
             Debug.Log("Connected");
@@ -37,7 +38,10 @@ public class DummySocketIO : MonoBehaviour
     void Update()
     {
        if (Input.GetButtonDown("Fire1")) {
-           socket.Emit("chat message", "coucou antoine steyer", "Iouniti");
+           Message message = new Message();
+           message.msg = "coucou antoine steyer";
+           message.device = "Iouniti";
+           socket.Emit("chat message", JsonConvert.SerializeObject(message));
        }
     }
 }
