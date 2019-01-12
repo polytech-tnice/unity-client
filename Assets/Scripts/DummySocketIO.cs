@@ -1,47 +1,46 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Quobject.SocketIoClientDotNet.Client;
-using Newtonsoft.Json;
+using SocketIO;
 
 public class DummySocketIO : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject socketGo;
 
-    struct Message {
-        public string msg;
-        public string device;
-    }
-
-    private Socket socket;
-
-    void Destroy() {
-        socket.Disconnect();
-    }
+    private SocketIOComponent socket;
 
     // Start is called before the first frame update
-    void Start()
-    {
-        socket = IO.Socket("http://10.212.111.122:3000");
-        socket.On (Socket.EVENT_CONNECT, () => {
-            // Access to Unity UI is not allowed in a background thread, so let's put into a shared variable
-            Debug.Log("Connected");
+    void Start() {
+        socket = socketGo.GetComponent<SocketIOComponent>();
+        socket.On("open", TestOpen);
+		socket.On("error", TestError);
+		socket.On("close", TestClose);
+        socket.On("chat message", (SocketIOEvent e) => {
+            Debug.Log(e.name + ": " + e.data);
         });
-        socket.On ("chat message", (data) => {
-            string str = data.ToString();
-
-            Debug.Log(str);
-        });
-        
     }
+
+
 
     // Update is called once per frame
     void Update()
     {
-       if (Input.GetButtonDown("Fire1")) {
-           Message message = new Message();
-           message.msg = "coucou antoine steyer";
-           message.device = "Iouniti";
-           socket.Emit("chat message", JsonConvert.SerializeObject(message));
-       }
+        
     }
+
+    public void TestOpen(SocketIOEvent e)
+	{
+		Debug.Log("[SocketIO] Open received: " + e.name + " " + e.data);
+	}
+
+	public void TestError(SocketIOEvent e)
+	{
+		Debug.Log("[SocketIO] Error received: " + e.name + " " + e.data);
+	}
+	
+	public void TestClose(SocketIOEvent e)
+	{	
+		Debug.Log("[SocketIO] Close received: " + e.name + " " + e.data);
+	}
 }

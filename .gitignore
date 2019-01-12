@@ -9,7 +9,7 @@
 [Bb]uild/
 [Bb]uilds/
 [Ll]ogs/
-[Aa]ssets/AssetStoreTools*
+[Aa]ssets/AssetStoreTools/*
 
 # Visual Studio cache directory
 .vs/
@@ -410,7 +410,7 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 
-# Libraries
-*.dll
-Dll/*
+# No gitkeep file should be ignored
+!**/.gitkeep
+
 # End of https://www.gitignore.io/api/vim,unity,visualstudio,visualstudiocode
