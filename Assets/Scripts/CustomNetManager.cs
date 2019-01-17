@@ -33,6 +33,15 @@ public class CustomNetManager : NetworkManager
                     launched = true;
                 }
             });
+
+            socket.On("endGame", (SocketIOEvent e) => {
+                launched = false;
+                SceneManager.LoadScene("ServerWaitGame");
+            });
+
+            socket.On("actionEvent", (SocketIOEvent e) => {
+               Debug.Log(e.data.ToString(true)); 
+            });
         }
         
         if (!launched) {
