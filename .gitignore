@@ -10,6 +10,7 @@
 [Bb]uilds/
 [Ll]ogs/
 [Aa]ssets/AssetStoreTools/*
+![Aa]ssets/AssetStoreTools/*.meta
 
 # Visual Studio cache directory
 .vs/

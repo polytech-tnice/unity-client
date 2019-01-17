@@ -114,4 +114,5 @@ MonoBehaviour:
   matchSize: 4
   isNetworkActive: 0
   matchMaker: {fileID: 0}
-  socket: {fileID: 0}
+  socketIOPrefab: {fileID: 7494371376944492413, guid: 8f5b1f50c0a995117940c5f437820592,
+    type: 3}
