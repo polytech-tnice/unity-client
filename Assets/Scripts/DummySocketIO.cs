@@ -19,6 +19,10 @@ public class DummySocketIO : MonoBehaviour
         socket.On("chat message", (SocketIOEvent e) => {
             Debug.Log(e.name + ": " + e.data);
         });
+
+        socket.On("connected", (SocketIOEvent e) => {
+            Debug.Log("I'm connected!");
+        });
     }
 
 
