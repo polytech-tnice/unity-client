@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using SocketIO;
 
 public class CustomNetManager : NetworkManager
@@ -12,6 +13,7 @@ public class CustomNetManager : NetworkManager
 
     private SocketIOComponent socket;
     private bool socketIOInstantiated = false;
+    private bool launched = false;
 
     public void InitGameServer() {
         if (!socketIOInstantiated) {
@@ -24,8 +26,18 @@ public class CustomNetManager : NetworkManager
                 Debug.Log("Connected to Node server!");
                 AuthenticateServer();
             });
+
+            socket.On("initGame", (SocketIOEvent e) => {
+                if (!launched) {
+                    StartServer();
+                    launched = true;
+                }
+            });
         }
-        StartServer();
+        
+        if (!launched) {
+            SceneManager.LoadScene("ServerWaitGame");
+        }
     }
 
     public void ConnectClientToServer(InputField serverIpField) {
