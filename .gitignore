@@ -11,6 +11,7 @@
 [Ll]ogs/
 [Aa]ssets/AssetStoreTools/*
 ![Aa]ssets/AssetStoreTools/*.meta
+[Aa]ssets/Oculus
 
 [Aa]ssets/Plugins/Android/assets/*
 ![Aa]ssets/Plugins/Android/assets/.gitkeep
