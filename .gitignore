@@ -12,6 +12,9 @@
 [Aa]ssets/AssetStoreTools/*
 ![Aa]ssets/AssetStoreTools/*.meta
 
+[Aa]ssets/Plugins/Android/assets/*
+![Aa]ssets/Plugins/Android/assets/.gitkeep
+
 # Visual Studio cache directory
 .vs/
 
