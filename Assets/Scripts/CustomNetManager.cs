@@ -38,10 +38,6 @@ public class CustomNetManager : NetworkManager
                 launched = false;
                 SceneManager.LoadScene("ServerWaitGame");
             });
-
-            socket.On("actionEvent", (SocketIOEvent e) => {
-               Debug.Log(e.data.ToString(true)); 
-            });
         }
         
         if (!launched) {
