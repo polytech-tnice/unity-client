@@ -19,6 +19,7 @@ public class CustomNetManager : NetworkManager
         if (!socketIOInstantiated) {
             GameObject socketIO = Instantiate(socketIOPrefab);
             DontDestroyOnLoad(socketIO);
+            socketIO.tag = "SocketIO";
             socket = socketIO.GetComponent<SocketIOComponent>();
             socketIOInstantiated = true;
 

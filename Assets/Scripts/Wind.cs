@@ -5,11 +5,9 @@ using UnityEngine;
 public class Wind : MonoBehaviour
 {
 
-    [SerializeField]
-    private float windSpeed;
+    public float windSpeed;
 
-    [SerializeField]
-    private Vector3 windDirection;
+    public Vector3 windDirection;
 
     [SerializeField]
     private Rigidbody[] rigidbodies;
