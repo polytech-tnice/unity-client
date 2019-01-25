@@ -17,7 +17,7 @@ public class GameCameraController : MonoBehaviour
   }
 
 
-  float tiltAngle = 1.0f;
+  float tiltAngle = 0.5f;
   // Update is called once per frame
   void Update()
   {

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - SocketIO
   - Windable
+  - Drone1
   layers:
   - Default
   - TransparentFX
