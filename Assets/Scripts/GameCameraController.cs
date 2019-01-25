@@ -17,9 +17,18 @@ public class GameCameraController : MonoBehaviour
   }
 
 
+  float tiltAngle = 1.0f;
   // Update is called once per frame
   void Update()
   {
+    if (Input.GetKey("joystick 1 button 0"))
+    {
+      float tiltAroundY = Input.GetAxis("Horizontal") * tiltAngle;
+      float tiltAroundX = Input.GetAxis("Vertical") * tiltAngle;
+
+      transform.Rotate(new Vector3(tiltAroundX, tiltAroundY, 0));
+      return;
+    }
 
     float newX = transform.position.x + Input.GetAxis("Horizontal") * speed * Time.deltaTime;
     float newZ = transform.position.z + Input.GetAxis("Vertical") * speed * Time.deltaTime;
