@@ -7,6 +7,8 @@ public class TennisPlayerController : NetworkBehaviour
 {
     [SerializeField]
     private float speed;
+
+    [SerializeField]
     private Camera cam;
 
     private Rigidbody rb;
@@ -14,7 +16,6 @@ public class TennisPlayerController : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        cam = GetComponent<Camera>();
         rb = GetComponent<Rigidbody>();
     }
 
