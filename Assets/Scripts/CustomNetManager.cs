@@ -8,53 +8,74 @@ using SocketIO;
 
 public class CustomNetManager : NetworkManager
 {
-    [SerializeField]
-    private GameObject socketIOPrefab;
+  [SerializeField]
+  private GameObject socketIOPrefab;
+  [SerializeField]
+  private GameObject vrPrefab;
 
-    private SocketIOComponent socket;
-    private bool socketIOInstantiated = false;
-    private bool launched = false;
+  [SerializeField]
+  private GameObject cameraPrefab;
 
-    public void InitGameServer() {
-        if (!socketIOInstantiated) {
-            GameObject socketIO = Instantiate(socketIOPrefab);
-            DontDestroyOnLoad(socketIO);
-            socketIO.tag = "SocketIO";
-            socket = socketIO.GetComponent<SocketIOComponent>();
-            socketIOInstantiated = true;
+  private SocketIOComponent socket;
+  private bool socketIOInstantiated = false;
+  private bool launched = false;
 
-            socket.On("connect", (SocketIOEvent e) => {
-                Debug.Log("Connected to Node server!");
-                AuthenticateServer();
-            });
+  public void InitGameServer()
+  {
+    if (!socketIOInstantiated)
+    {
+      GameObject socketIO = Instantiate(socketIOPrefab);
+      DontDestroyOnLoad(socketIO);
+      socketIO.tag = "SocketIO";
+      socket = socketIO.GetComponent<SocketIOComponent>();
+      socketIOInstantiated = true;
 
-            socket.On("initGame", (SocketIOEvent e) => {
-                if (!launched) {
-                    StartServer();
-                    launched = true;
-                }
-            });
+      socket.On("connect", (SocketIOEvent e) =>
+      {
+        Debug.Log("Connected to Node server!");
+        AuthenticateServer();
+      });
 
-            socket.On("endGame", (SocketIOEvent e) => {
-                launched = false;
-                SceneManager.LoadScene("ServerWaitGame");
-            });
+      socket.On("initGame", (SocketIOEvent e) =>
+      {
+        if (!launched)
+        {
+          StartServer();
+          launched = true;
         }
-        
-        if (!launched) {
-            SceneManager.LoadScene("ServerWaitGame");
-        }
+      });
+
+      socket.On("endGame", (SocketIOEvent e) =>
+      {
+        launched = false;
+        SceneManager.LoadScene("ServerWaitGame");
+      });
     }
 
-    public void ConnectClientToServer(InputField serverIpField) {
-        networkAddress = serverIpField.text;
-
-        StartClient();
+    if (!launched)
+    {
+      SceneManager.LoadScene("ServerWaitGame");
     }
+  }
 
-    void AuthenticateServer() {
-        Dictionary<string, string> data = new Dictionary<string, string>();
-        data["name"] = "game";
-        socket.Emit("authentication", new JSONObject(data));
-    }
+  public void ConnectClientToServer(InputField serverIpField)
+  {
+    networkAddress = serverIpField.text;
+    playerPrefab = vrPrefab;
+    StartClient();
+  }
+
+  void AuthenticateServer()
+  {
+    Dictionary<string, string> data = new Dictionary<string, string>();
+    data["name"] = "game";
+    socket.Emit("authentication", new JSONObject(data));
+  }
+
+  public void ConnectCameraToServer(InputField serverIpField)
+  {
+    networkAddress = serverIpField.text;
+    playerPrefab = cameraPrefab;
+    StartClient();
+  }
 }
