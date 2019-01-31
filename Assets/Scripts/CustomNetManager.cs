@@ -22,7 +22,6 @@ public class CustomNetManager : NetworkManager
             socketIO.tag = "SocketIO";
             socket = socketIO.GetComponent<SocketIOComponent>();
             socketIOInstantiated = true;
-
             socket.On("connect", (SocketIOEvent e) => {
                 Debug.Log("Connected to Node server!");
                 AuthenticateServer();
