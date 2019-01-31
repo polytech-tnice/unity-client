@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Networking.NetworkSystem;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using SocketIO;
@@ -19,6 +20,7 @@ public class CustomNetManager : NetworkManager
   private SocketIOComponent socket;
   private bool socketIOInstantiated = false;
   private bool launched = false;
+  private int curPlayer = 0;
 
   public void InitGameServer()
   {
@@ -61,7 +63,7 @@ public class CustomNetManager : NetworkManager
   public void ConnectClientToServer(InputField serverIpField)
   {
     networkAddress = serverIpField.text;
-    playerPrefab = vrPrefab;
+    curPlayer = 0;
     StartClient();
   }
 
@@ -75,7 +77,33 @@ public class CustomNetManager : NetworkManager
   public void ConnectCameraToServer(InputField serverIpField)
   {
     networkAddress = serverIpField.text;
-    playerPrefab = cameraPrefab;
+    curPlayer = 1;
     StartClient();
+  }
+
+  //Called on client when connect
+  public override void OnClientConnect(NetworkConnection conn) {       
+
+      // Create message to set the player
+      IntegerMessage msg = new IntegerMessage(curPlayer);      
+
+      // Call Add player and pass the message
+      ClientScene.AddPlayer(conn, 0, msg);
+  }
+
+  public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId, NetworkReader extraMessageReader ) { 
+    // Read client message and receive index
+    if (extraMessageReader != null) {
+        var stream = extraMessageReader.ReadMessage<IntegerMessage> ();
+        curPlayer = stream.value;
+    }
+
+    if (curPlayer == 0) {
+      var player = Instantiate(vrPrefab, GetStartPosition());
+      NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
+    } else {
+      var player = Instantiate(cameraPrefab, GetStartPosition());
+      NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
+    }
   }
 }
