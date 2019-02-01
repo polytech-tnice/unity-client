@@ -2,62 +2,108 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Networking.NetworkSystem;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using SocketIO;
 
 public class CustomNetManager : NetworkManager
 {
-    [SerializeField]
-    private GameObject socketIOPrefab;
+  [SerializeField]
+  private GameObject socketIOPrefab;
+  [SerializeField]
+  private GameObject vrPrefab;
 
-    private SocketIOComponent socket;
-    private bool socketIOInstantiated = false;
-    private bool launched = false;
+  [SerializeField]
+  private GameObject cameraPrefab;
 
-    public void InitGameServer() {
-        if (!socketIOInstantiated) {
-            GameObject socketIO = Instantiate(socketIOPrefab);
-            DontDestroyOnLoad(socketIO);
-            socket = socketIO.GetComponent<SocketIOComponent>();
-            socketIOInstantiated = true;
+  private SocketIOComponent socket;
+  private bool socketIOInstantiated = false;
+  private bool launched = false;
+  private int curPlayer = 0;
 
-            socket.On("connect", (SocketIOEvent e) => {
-                Debug.Log("Connected to Node server!");
-                AuthenticateServer();
-            });
+  public void InitGameServer()
+  {
+    if (!socketIOInstantiated)
+    {
+      GameObject socketIO = Instantiate(socketIOPrefab);
+      DontDestroyOnLoad(socketIO);
+      socketIO.tag = "SocketIO";
+      socket = socketIO.GetComponent<SocketIOComponent>();
+      socketIOInstantiated = true;
 
-            socket.On("initGame", (SocketIOEvent e) => {
-                if (!launched) {
-                    StartServer();
-                    launched = true;
-                }
-            });
+      socket.On("connect", (SocketIOEvent e) =>
+      {
+        Debug.Log("Connected to Node server!");
+        AuthenticateServer();
+      });
 
-            socket.On("endGame", (SocketIOEvent e) => {
-                launched = false;
-                SceneManager.LoadScene("ServerWaitGame");
-            });
-
-            socket.On("actionEvent", (SocketIOEvent e) => {
-               Debug.Log(e.data.ToString(true)); 
-            });
+      socket.On("initGame", (SocketIOEvent e) =>
+      {
+        if (!launched)
+        {
+          StartServer();
+          launched = true;
         }
-        
-        if (!launched) {
-            SceneManager.LoadScene("ServerWaitGame");
-        }
+      });
+
+      socket.On("endGame", (SocketIOEvent e) =>
+      {
+        launched = false;
+        SceneManager.LoadScene("ServerWaitGame");
+      });
     }
 
-    public void ConnectClientToServer(InputField serverIpField) {
-        networkAddress = serverIpField.text;
+    if (!launched)
+    {
+      SceneManager.LoadScene("ServerWaitGame");
+    }
+  }
 
-        StartClient();
+  public void ConnectClientToServer(InputField serverIpField)
+  {
+    networkAddress = serverIpField.text;
+    curPlayer = 0;
+    StartClient();
+  }
+
+  void AuthenticateServer()
+  {
+    Dictionary<string, string> data = new Dictionary<string, string>();
+    data["name"] = "game";
+    socket.Emit("authentication", new JSONObject(data));
+  }
+
+  public void ConnectCameraToServer(InputField serverIpField)
+  {
+    networkAddress = serverIpField.text;
+    curPlayer = 1;
+    StartClient();
+  }
+
+  //Called on client when connect
+  public override void OnClientConnect(NetworkConnection conn) {       
+
+      // Create message to set the player
+      IntegerMessage msg = new IntegerMessage(curPlayer);      
+
+      // Call Add player and pass the message
+      ClientScene.AddPlayer(conn, 0, msg);
+  }
+
+  public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId, NetworkReader extraMessageReader ) { 
+    // Read client message and receive index
+    if (extraMessageReader != null) {
+        var stream = extraMessageReader.ReadMessage<IntegerMessage> ();
+        curPlayer = stream.value;
     }
 
-    void AuthenticateServer() {
-        Dictionary<string, string> data = new Dictionary<string, string>();
-        data["name"] = "game";
-        socket.Emit("authentication", new JSONObject(data));
+    if (curPlayer == 0) {
+      var player = Instantiate(vrPrefab, GetStartPosition());
+      NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
+    } else {
+      var player = Instantiate(cameraPrefab, GetStartPosition());
+      NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
     }
+  }
 }
