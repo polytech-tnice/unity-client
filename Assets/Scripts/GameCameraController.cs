@@ -11,7 +11,7 @@ public class GameCameraController : NetworkBehaviour
   private Camera cam;
   private Rigidbody body;
   private Vector3 pos = Vector3.zero;
-  public float lookSenitivity = 0.5f;
+  public float lookSenitivity = 4f;
   public float lookSmoothDamp = 0.1f;
   public float xRotation;
   public float yRotation;
@@ -37,7 +37,8 @@ public class GameCameraController : NetworkBehaviour
   // Update is called once per frame
   void Update()
   {
-    if (!isLocalPlayer) {
+    if (!isLocalPlayer)
+    {
       Debug.Log("Not quite my local player");
       cam.enabled = false;
       return;

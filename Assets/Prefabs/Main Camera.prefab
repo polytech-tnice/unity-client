@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  lookSenitivity: 0.5
+  lookSenitivity: 2
   lookSmoothDamp: 0.1
   xRotation: 0
   yRotation: 0
