@@ -62,6 +62,13 @@ public class GameCameraController : NetworkBehaviour
       switchCameraLeft();
     }
 
+    if (Input.GetKeyDown(KeyCode.Joystick1Button1) && currentCamera != -1)
+    {
+      cameras[currentCamera].GetComponent<Camera>().enabled = false;
+      cam.enabled = true;
+      currentCamera = -1;
+    }
+
 
     // If not Main Camera, don't move or rotate
     if (currentCamera != -1)
@@ -84,9 +91,6 @@ public class GameCameraController : NetworkBehaviour
     currentYRotation = Mathf.SmoothDamp(currentYRotation, yRotation, ref yRotationV, lookSmoothDamp);
 
     transform.rotation = Quaternion.Euler(xRotation, yRotation, 0f);
-
-    float newX = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
-    float newZ = Input.GetAxis("Vertical") * speed * Time.deltaTime;
 
     var direction = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
     transform.Translate(direction * speed * Time.deltaTime, Space.Self);
