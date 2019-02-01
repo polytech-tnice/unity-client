@@ -26,7 +26,13 @@ public class TennisPlayerController : NetworkBehaviour
             cam.enabled = false;
             return;
         }
+        
+        Vector3 localVelocity = transform.InverseTransformDirection(rb.velocity);
 
-        rb.velocity = new Vector3(speed * Input.GetAxis("Horizontal"), 0, speed * Input.GetAxis("Vertical"));
+        localVelocity.x = Input.GetAxis("Horizontal") * speed;
+        localVelocity.y = 0;
+        localVelocity.z = Input.GetAxis("Vertical") * speed;
+                
+        rb.velocity = transform.TransformDirection(localVelocity);
     }
 }

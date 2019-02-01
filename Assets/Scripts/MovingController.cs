@@ -17,6 +17,11 @@ public class MovingController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rb.velocity = new Vector3(speed * Input.GetAxis("Horizontal"), 0, speed * Input.GetAxis("Vertical"));
+        Vector3 localVelocity = transform.InverseTransformDirection(rb.velocity);
+        localVelocity.x = Input.GetAxis("Horizontal") * speed;
+        localVelocity.y = 0;
+        localVelocity.z = Input.GetAxis("Vertical") * speed;
+                
+        rb.velocity = transform.TransformDirection(localVelocity);
     }
 }
