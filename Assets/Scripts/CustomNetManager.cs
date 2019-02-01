@@ -98,11 +98,12 @@ public class CustomNetManager : NetworkManager
         curPlayer = stream.value;
     }
 
-    if (curPlayer == 0) {
+    if (curPlayer == 0) { // player
       var player = Instantiate(vrPrefab, GetStartPosition());
       NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
-    } else {
-      var player = Instantiate(cameraPrefab, GetStartPosition());
+    } else { // camera
+      GameObject spawnPoint = GameObject.Find("Camera Spawn");
+      var player = Instantiate(cameraPrefab, spawnPoint.transform);
       NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
     }
   }

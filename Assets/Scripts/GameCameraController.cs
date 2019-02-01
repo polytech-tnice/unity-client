@@ -39,7 +39,6 @@ public class GameCameraController : NetworkBehaviour
   {
     if (!isLocalPlayer)
     {
-      Debug.Log("Not quite my local player");
       cam.enabled = false;
       return;
     }
