@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class GameCameraController : MonoBehaviour
+public class GameCameraController : NetworkBehaviour
 {
 
   [SerializeField]
@@ -36,6 +37,11 @@ public class GameCameraController : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
+    if (!isLocalPlayer) {
+      Debug.Log("Not quite my local player");
+      cam.enabled = false;
+      return;
+    }
 
     lStickHorizontal = Input.GetAxis("LookY");
     lStickVertical = Input.GetAxis("LookX");

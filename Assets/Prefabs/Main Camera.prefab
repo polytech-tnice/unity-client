@@ -98,7 +98,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
+  lookSenitivity: 0.5
+  lookSmoothDamp: 0.1
+  xRotation: 0
+  yRotation: 0
+  xRotationV: 0
+  yRotationV: 0
+  currentXRotation: 0
   currentYRotation: 0
+  lStickHorizontal: 0
+  lStickVertical: 0
+  lStickV: 0
+  lStickH: 0
 --- !u!114 &5961134404462337031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,7 +142,7 @@ MonoBehaviour:
     i14: 0
     i15: 0
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
+  m_LocalPlayerAuthority: 0
 --- !u!114 &754495901906560731
 MonoBehaviour:
   m_ObjectHideFlags: 0

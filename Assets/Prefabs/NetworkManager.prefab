@@ -58,7 +58,9 @@ MonoBehaviour:
   m_PlayerSpawnMethod: 1
   m_OfflineScene: Lobby
   m_OnlineScene: GameScene
-  m_SpawnPrefabs: []
+  m_SpawnPrefabs:
+  - {fileID: 8920924883226559873, guid: 79f9719c8709519d289083c18d4351f6, type: 3}
+  - {fileID: 9119029425831958793, guid: c0627bbd2614e421eadfae479d09167e, type: 3}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -115,4 +117,8 @@ MonoBehaviour:
   isNetworkActive: 0
   matchMaker: {fileID: 0}
   socketIOPrefab: {fileID: 7494371376944492413, guid: 8f5b1f50c0a995117940c5f437820592,
+    type: 3}
+  vrPrefab: {fileID: 8920924883226559873, guid: 79f9719c8709519d289083c18d4351f6,
+    type: 3}
+  cameraPrefab: {fileID: 9119029425831958793, guid: c0627bbd2614e421eadfae479d09167e,
     type: 3}
