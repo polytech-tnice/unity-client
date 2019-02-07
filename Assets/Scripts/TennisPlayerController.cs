@@ -11,6 +11,9 @@ public class TennisPlayerController : NetworkBehaviour
     [SerializeField]
     private Camera cam;
 
+    [SerializeField]
+    private GameObject tennisBallPrefab;
+
     private Rigidbody rb;
 
     // Start is called before the first frame update
@@ -34,5 +37,20 @@ public class TennisPlayerController : NetworkBehaviour
         localVelocity.z = Input.GetAxis("Vertical") * speed;
                 
         rb.velocity = transform.TransformDirection(localVelocity);
+
+        if (Input.GetButtonDown("Fire1")) {
+            CmdBallService();
+        }
+    }
+
+    [Command]
+    void CmdBallService() {
+        GameObject tennisBall = (GameObject)Instantiate(tennisBallPrefab,
+            transform.position + transform.forward + transform.up, Quaternion.identity);
+
+        Rigidbody rb = tennisBall.GetComponent<Rigidbody>();
+        rb.velocity = (transform.forward + transform.up) * 2f;
+
+        NetworkServer.Spawn(tennisBall);
     }
 }
