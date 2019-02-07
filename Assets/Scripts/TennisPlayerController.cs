@@ -49,7 +49,7 @@ public class TennisPlayerController : NetworkBehaviour
             transform.position + transform.forward + transform.up, Quaternion.identity);
 
         Rigidbody rb = tennisBall.GetComponent<Rigidbody>();
-        rb.velocity = (transform.forward + transform.up) * 2f;
+        rb.velocity = transform.up * 5f + transform.forward * 10f;
 
         NetworkServer.Spawn(tennisBall);
     }
