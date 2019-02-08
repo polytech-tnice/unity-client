@@ -197,6 +197,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   cam: {fileID: 2932328599191463068}
+  tennisBallPrefab: {fileID: 8165228118922272959, guid: a69c4fcce4a02abd3a9b587cf1b3941b,
+    type: 3}
 --- !u!136 &557224325667514205
 CapsuleCollider:
   m_ObjectHideFlags: 0
