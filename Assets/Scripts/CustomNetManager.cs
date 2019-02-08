@@ -115,7 +115,7 @@ public class CustomNetManager : NetworkManager
       var player = Instantiate(cameraPrefab, spawnPoint.transform);
       NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
     } else {
-        var player = Instantiate(controllerPrefab, GetStartPosition());
+        var player = Instantiate(vrPrefab, GetStartPosition());
         NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
     }
   }
