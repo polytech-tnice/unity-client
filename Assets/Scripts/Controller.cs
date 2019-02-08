@@ -16,6 +16,5 @@ public class Controller : NetworkBehaviour
         transform.Rotate(0, -Input.gyro.rotationRateUnbiased.y, 0);
         transform.Rotate(-Input.gyro.rotationRateUnbiased.z, 0, 0);
         transform.Rotate(0, 0, -Input.gyro.rotationRateUnbiased.x);
-        transform.Translate(Input.acceleration.x, Input.acceleration.y, 0);
     }
 }
