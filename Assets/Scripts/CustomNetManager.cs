@@ -39,6 +39,10 @@ public class CustomNetManager : NetworkManager
       {
         Debug.Log("Connected to Node server!");
         AuthenticateServer();
+        initGameInBackEnd();
+
+        // TODO REMOVE THIS LINE
+        launchGame();
       });
 
       socket.On("gameLaunched", (SocketIOEvent e) =>
@@ -63,6 +67,22 @@ public class CustomNetManager : NetworkManager
     {
       SceneManager.LoadScene("ServerWaitGame");
     }
+  }
+
+  void initGameInBackEnd()
+  {
+    Dictionary<string, string> data = new Dictionary<string, string>();
+    data["game_name"] = "Game1";
+    data["player1_name"] = "Joueur1";
+    data["player2_name"] = "Joueur2";
+    socket.Emit("initGame", new JSONObject(data));
+  }
+
+  void launchGame()
+  {
+    Dictionary<string, string> data = new Dictionary<string, string>();
+    data["name"] = "Game1";
+    socket.Emit("launchGame", new JSONObject(data));
   }
 
   public void ConnectClientToServer(InputField serverIpField)
@@ -94,41 +114,48 @@ public class CustomNetManager : NetworkManager
   }
 
   //Called on client when connect
-  public override void OnClientConnect(NetworkConnection conn) {       
+  public override void OnClientConnect(NetworkConnection conn)
+  {
 
-      // Create message to set the player
-      IntegerMessage msg = new IntegerMessage(curPlayer);      
+    // Create message to set the player
+    IntegerMessage msg = new IntegerMessage(curPlayer);
 
-      // Call Add player and pass the message
-      ClientScene.AddPlayer(conn, 0, msg);
+    // Call Add player and pass the message
+    ClientScene.AddPlayer(conn, 0, msg);
   }
 
-  public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId, NetworkReader extraMessageReader ) { 
+  public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId, NetworkReader extraMessageReader)
+  {
     // Read client message and receive index
-    if (extraMessageReader != null) {
-        var stream = extraMessageReader.ReadMessage<IntegerMessage> ();
-        curPlayer = stream.value;
+    if (extraMessageReader != null)
+    {
+      var stream = extraMessageReader.ReadMessage<IntegerMessage>();
+      curPlayer = stream.value;
     }
 
-    if (curPlayer == 0) { // player
+    if (curPlayer == 0)
+    { // player
       var player = Instantiate(vrPrefab, GetStartPosition());
       NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
-    } 
-    if (curPlayer == 1 ) { // camera
+    }
+    if (curPlayer == 1)
+    { // camera
       GameObject spawnPoint = GameObject.Find("Camera Spawn");
       var player = Instantiate(cameraPrefab, spawnPoint.transform);
       NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
-    } 
-    if (curPlayer == 2) {
-        var player = Instantiate(controllerPrefab, GetStartPosition());
-        NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
+    }
+    if (curPlayer == 2)
+    {
+      var player = Instantiate(controllerPrefab, GetStartPosition());
+      NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
     }
   }
 
-  void OnBallService(NetworkMessage netMsg) {
+  void OnBallService(NetworkMessage netMsg)
+  {
     StringMessage message = netMsg.ReadMessage<StringMessage>();
     Debug.Log(message.value);
-    
+
     Dictionary<string, string> data = new Dictionary<string, string>();
     data["game_name"] = gameName;
 
