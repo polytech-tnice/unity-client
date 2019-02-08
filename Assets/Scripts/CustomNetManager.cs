@@ -13,6 +13,8 @@ public class CustomNetManager : NetworkManager
   private GameObject socketIOPrefab;
   [SerializeField]
   private GameObject vrPrefab;
+  [SerializeField]
+  private GameObject controllerPrefab;
 
   [SerializeField]
   private GameObject cameraPrefab;
@@ -81,6 +83,13 @@ public class CustomNetManager : NetworkManager
     StartClient();
   }
 
+  public void ConnectControllerToServer(InputField serverIpField)
+  {
+    networkAddress = serverIpField.text;
+    curPlayer = 2;
+    StartClient();
+  }
+
   //Called on client when connect
   public override void OnClientConnect(NetworkConnection conn) {       
 
@@ -101,10 +110,13 @@ public class CustomNetManager : NetworkManager
     if (curPlayer == 0) { // player
       var player = Instantiate(vrPrefab, GetStartPosition());
       NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
-    } else { // camera
+    } else if (curPlayer == 1 ) { // camera
       GameObject spawnPoint = GameObject.Find("Camera Spawn");
       var player = Instantiate(cameraPrefab, spawnPoint.transform);
       NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
+    } else {
+        var player = Instantiate(controllerPrefab, GetStartPosition());
+        NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
     }
   }
 }
