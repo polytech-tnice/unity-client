@@ -108,7 +108,7 @@ public class CustomNetManager : NetworkManager
     }
 
     if (curPlayer == 0) { // player
-      var player = Instantiate(vrPrefab, GetStartPosition());
+      var player = Instantiate(controllerPrefab, GetStartPosition());
       NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
     } else if (curPlayer == 1 ) { // camera
       GameObject spawnPoint = GameObject.Find("Camera Spawn");
