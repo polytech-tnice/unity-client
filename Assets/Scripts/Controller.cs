@@ -14,7 +14,7 @@ public class Controller : NetworkBehaviour
     void Update()
     {
         transform.Rotate(0, -Input.gyro.rotationRateUnbiased.y, 0);
-        transform.Rotate(-Input.gyro.rotationRateUnbiased.z, 0, 0);
-        transform.Rotate(0, 0, -Input.gyro.rotationRateUnbiased.x);
+        transform.Rotate(-Input.gyro.rotationRateUnbiased.x, 0, 0);
+        transform.Rotate(0, 0, -Input.gyro.rotationRateUnbiased.z);
     }
 }
