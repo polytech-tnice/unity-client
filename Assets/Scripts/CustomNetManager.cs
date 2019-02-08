@@ -21,6 +21,7 @@ public class CustomNetManager : NetworkManager
   private bool socketIOInstantiated = false;
   private bool launched = false;
   private int curPlayer = 0;
+  private string gameName;
 
   public void InitGameServer()
   {
@@ -43,6 +44,8 @@ public class CustomNetManager : NetworkManager
         if (!launched)
         {
           StartServer();
+          NetworkServer.RegisterHandler(1002, OnBallService);
+          gameName = e.data.ToDictionary()["name"];
           launched = true;
         }
       });
@@ -106,5 +109,19 @@ public class CustomNetManager : NetworkManager
       var player = Instantiate(cameraPrefab, spawnPoint.transform);
       NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
     }
+  }
+
+  void OnBallService(NetworkMessage netMsg) {
+    StringMessage message = netMsg.ReadMessage<StringMessage>();
+    Debug.Log(message.value);
+    
+    Dictionary<string, string> data = new Dictionary<string, string>();
+    data["game_name"] = gameName;
+
+    JSONObject json = new JSONObject(data);
+    json.SetField("player1_score", 0);
+    json.SetField("player2_score", 0);
+
+    socket.Emit("updateScore", json);
   }
 }

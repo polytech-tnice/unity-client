@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Networking.NetworkSystem;
 
 public class TennisPlayerController : NetworkBehaviour
 {
@@ -16,10 +17,13 @@ public class TennisPlayerController : NetworkBehaviour
 
     private Rigidbody rb;
 
+    private NetworkClient client;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        client = NetworkManager.singleton.client;
     }
 
     // Update is called once per frame
@@ -40,6 +44,7 @@ public class TennisPlayerController : NetworkBehaviour
 
         if (Input.GetButtonDown("Fire1")) {
             CmdBallService();
+            this.client.Send(1002, new StringMessage("Service"));
         }
     }
 
@@ -52,5 +57,6 @@ public class TennisPlayerController : NetworkBehaviour
         rb.velocity = transform.up * 5f + transform.forward * 10f;
 
         NetworkServer.Spawn(tennisBall);
+
     }
 }
