@@ -38,7 +38,7 @@ public class CustomNetManager : NetworkManager
         AuthenticateServer();
       });
 
-      socket.On("initGame", (SocketIOEvent e) =>
+      socket.On("gameLaunched", (SocketIOEvent e) =>
       {
         if (!launched)
         {
