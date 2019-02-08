@@ -926,7 +926,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1197498474}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1316147399, guid: a96a98594deedf0c2a65bccd76cc714a, type: 3}
+        m_MethodName: ConnectControllerToServer
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2065864470}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.InputField, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1197498474
