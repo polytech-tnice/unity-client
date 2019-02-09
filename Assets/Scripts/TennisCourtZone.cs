@@ -9,6 +9,9 @@ public class TennisCourtZone : MonoBehaviour
         OUT
     }
 
+    [SerializeField]
+    private GameManager gameManager;
+
     [Range(0,1)]
     [SerializeField]
     private int player;
@@ -17,7 +20,9 @@ public class TennisCourtZone : MonoBehaviour
     private ZoneType type;
 
     void OnTriggerEnter(Collider col) {
-        Debug.Log(type.ToString() + ' ' + player);
+        if (col.CompareTag("Ball")) {
+            gameManager.CollisionDetected(type, player);
+        }
     }
 
 }

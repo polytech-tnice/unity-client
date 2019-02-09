@@ -154,7 +154,6 @@ public class CustomNetManager : NetworkManager
   void OnBallService(NetworkMessage netMsg)
   {
     StringMessage message = netMsg.ReadMessage<StringMessage>();
-    Debug.Log(message.value);
 
     Dictionary<string, string> data = new Dictionary<string, string>();
     data["game_name"] = gameName;
