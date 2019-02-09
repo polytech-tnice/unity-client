@@ -7,6 +7,9 @@ using UnityEngine.Networking.NetworkSystem;
 public class TennisPlayerController : NetworkBehaviour
 {
     [SerializeField]
+    private GameManager gameManager;
+
+    [SerializeField]
     private float speed;
 
     [SerializeField]
@@ -42,9 +45,10 @@ public class TennisPlayerController : NetworkBehaviour
                 
         rb.velocity = transform.TransformDirection(localVelocity);
 
-        if (Input.GetButtonDown("Fire1")) {
+        if (Input.GetButtonDown("Fire1") && !gameManager.PointInProgress) {
             CmdBallService();
             this.client.Send(1002, new StringMessage("Service"));
+            this.gameManager.Service(0); //FIXME: change by real player id
         }
     }
 
