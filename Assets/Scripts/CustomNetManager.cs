@@ -22,7 +22,8 @@ public class CustomNetManager : NetworkManager
   private SocketIOComponent socket;
   private bool socketIOInstantiated = false;
   private bool launched = false;
-  private int curPlayer = 0;
+  private int curPlayerType = 0;
+  private int players = 0;
   private string gameName;
 
   public void InitGameServer()
@@ -88,7 +89,7 @@ public class CustomNetManager : NetworkManager
   public void ConnectClientToServer(InputField serverIpField)
   {
     networkAddress = serverIpField.text;
-    curPlayer = 0;
+    curPlayerType = 0;
     StartClient();
   }
 
@@ -102,14 +103,14 @@ public class CustomNetManager : NetworkManager
   public void ConnectCameraToServer(InputField serverIpField)
   {
     networkAddress = serverIpField.text;
-    curPlayer = 1;
+    curPlayerType = 1;
     StartClient();
   }
 
   public void ConnectControllerToServer(InputField serverIpField)
   {
     networkAddress = serverIpField.text;
-    curPlayer = 2;
+    curPlayerType = 2;
     StartClient();
   }
 
@@ -118,8 +119,9 @@ public class CustomNetManager : NetworkManager
   {
 
     // Create message to set the player
-    IntegerMessage msg = new IntegerMessage(curPlayer);
+    IntegerMessage msg = new IntegerMessage(curPlayerType);
 
+    Debug.Log(players);
     // Call Add player and pass the message
     ClientScene.AddPlayer(conn, 0, msg);
   }
@@ -130,21 +132,23 @@ public class CustomNetManager : NetworkManager
     if (extraMessageReader != null)
     {
       var stream = extraMessageReader.ReadMessage<IntegerMessage>();
-      curPlayer = stream.value;
+      curPlayerType = stream.value;
     }
 
-    if (curPlayer == 0)
+    if (curPlayerType == 0)
     { // player
       var player = Instantiate(vrPrefab, GetStartPosition());
       NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
+      player.GetComponent<TennisPlayerController>().id = players;
+      players++;
     }
-    if (curPlayer == 1)
+    if (curPlayerType == 1)
     { // camera
       GameObject spawnPoint = GameObject.Find("Camera Spawn");
       var player = Instantiate(cameraPrefab, spawnPoint.transform);
       NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
     }
-    if (curPlayer == 2)
+    if (curPlayerType == 2)
     {
       var player = Instantiate(controllerPrefab, GetStartPosition());
       NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);

@@ -18,6 +18,8 @@ public class TennisPlayerController : NetworkBehaviour
     [SerializeField]
     private GameObject tennisBallPrefab;
 
+    public int id; 
+
     private Rigidbody rb;
 
     private NetworkClient client;
