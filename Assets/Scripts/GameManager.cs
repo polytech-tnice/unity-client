@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using SocketIO;
 
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
     [SerializeField]
     private Score score;
@@ -16,6 +17,9 @@ public class GameManager : MonoBehaviour
 
     public bool PointInProgress { get { return pointInProgress; }}
     private bool pointInProgress;
+
+    [SyncVar]
+    private int nextIdToCreate = 0;
 
     void Start() {
         pointInProgress = false;
@@ -36,5 +40,13 @@ public class GameManager : MonoBehaviour
     public void Service(int player) {
         currentPlayer = player;
         pointInProgress = true;
+    }
+
+    public int CreateNewId() {
+        int res = nextIdToCreate;
+        if (isServer) {
+            nextIdToCreate++;
+        }
+        return res;
     }
 }

@@ -6,7 +6,6 @@ using UnityEngine.Networking.NetworkSystem;
 
 public class TennisPlayerController : NetworkBehaviour
 {
-    [SerializeField]
     private GameManager gameManager;
 
     [SerializeField]
@@ -18,18 +17,22 @@ public class TennisPlayerController : NetworkBehaviour
     [SerializeField]
     private GameObject tennisBallPrefab;
 
-    public int id; 
-
     private Rigidbody rb;
 
     private NetworkClient client;
+
+    private int id;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         client = NetworkManager.singleton.client;
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
+        this.id = this.gameManager.CreateNewId();
     }
+
 
     // Update is called once per frame
     void Update()
@@ -50,7 +53,7 @@ public class TennisPlayerController : NetworkBehaviour
         if (Input.GetButtonDown("Fire1") && !gameManager.PointInProgress) {
             CmdBallService();
             this.client.Send(1002, new StringMessage("Service"));
-            this.gameManager.Service(0); //FIXME: change by real player id
+            this.gameManager.Service(id);
         }
     }
 
@@ -65,4 +68,5 @@ public class TennisPlayerController : NetworkBehaviour
         NetworkServer.Spawn(tennisBall);
 
     }
+
 }

@@ -23,7 +23,6 @@ public class CustomNetManager : NetworkManager
   private bool socketIOInstantiated = false;
   private bool launched = false;
   private int curPlayerType = 0;
-  private int players = 0;
   private string gameName;
 
   public void InitGameServer()
@@ -121,7 +120,6 @@ public class CustomNetManager : NetworkManager
     // Create message to set the player
     IntegerMessage msg = new IntegerMessage(curPlayerType);
 
-    Debug.Log(players);
     // Call Add player and pass the message
     ClientScene.AddPlayer(conn, 0, msg);
   }
@@ -139,8 +137,6 @@ public class CustomNetManager : NetworkManager
     { // player
       var player = Instantiate(vrPrefab, GetStartPosition());
       NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
-      player.GetComponent<TennisPlayerController>().id = players;
-      players++;
     }
     if (curPlayerType == 1)
     { // camera
