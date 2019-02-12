@@ -13,9 +13,11 @@ public class GameManager : NetworkBehaviour
     private SocketIOComponent socket;
 
     public int CurrentPlayer { get { return currentPlayer; }}
+    [SyncVar]
     private int currentPlayer;
 
     public bool PointInProgress { get { return pointInProgress; }}
+    [SyncVar]
     private bool pointInProgress;
 
     [SyncVar]
@@ -38,8 +40,10 @@ public class GameManager : NetworkBehaviour
     }
 
     public void Service(int player) {
-        currentPlayer = player;
-        pointInProgress = true;
+        if (isServer) {
+            currentPlayer = player;
+            pointInProgress = true;
+        }
     }
 
     public int CreateNewId() {

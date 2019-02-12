@@ -49,9 +49,6 @@ public class GameCameraController : NetworkBehaviour
       return;
     }
 
-
-
-
     if (Input.GetKeyDown(KeyCode.Joystick1Button8))
     {
       switchCameraRight();
