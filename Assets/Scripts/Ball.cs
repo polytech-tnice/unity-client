@@ -5,6 +5,8 @@ using UnityEngine.Networking;
 
 public class Ball : NetworkBehaviour
 {
+    private GameManager gameManager;
+
     private Rigidbody rb;
 
     private float bounceForce = 3f;
@@ -15,6 +17,7 @@ public class Ball : NetworkBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         IsInGame = true;
     }
 
@@ -33,6 +36,8 @@ public class Ball : NetworkBehaviour
             // And finally we add force in the direction of dir and multiply it by force. 
             // This will push back the player
             GetComponent<Rigidbody>().AddForce(dir*bounceForce);
+
+            gameManager.SetCurrentPlayer(collision.collider.GetComponent<TennisPlayerController>().GetId());
         }
     }
 }

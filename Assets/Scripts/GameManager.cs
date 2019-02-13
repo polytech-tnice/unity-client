@@ -45,6 +45,10 @@ public class GameManager : NetworkBehaviour
         }
     }
 
+    public void SetCurrentPlayer(int player) {
+        currentPlayer = player;
+    }
+
     public void Service(int player) {
         if (isServer) {
             Debug.Log("Service of player : " + player);

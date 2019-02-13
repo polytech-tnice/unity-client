@@ -56,6 +56,10 @@ public class TennisPlayerController : NetworkBehaviour
         }
     }
 
+    public int GetId() {
+        return id;
+    }
+
     [Command]
     void CmdBallService(int playerId) {
         GameObject tennisBall = (GameObject)Instantiate(tennisBallPrefab,
