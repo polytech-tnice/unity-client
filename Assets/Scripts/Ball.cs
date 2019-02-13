@@ -9,7 +9,7 @@ public class Ball : NetworkBehaviour
 
     private Rigidbody rb;
 
-    private float bounceForce = 3f;
+    private float bounceForce = 10f;
 
     public bool IsInGame {get; set;}
 
