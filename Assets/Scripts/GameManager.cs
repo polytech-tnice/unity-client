@@ -31,17 +31,18 @@ public class GameManager : NetworkBehaviour
         currentPlayer = 0;
     }
 
-    public void CollisionDetected(TennisCourtZone.ZoneType type, int player) {
-        int[] newScore = score.GetCurrentScore();
-        pointInProgress = false;
+    public void CollisionDetected(TennisCourtZone.ZoneType type, int owner, Ball ball) {
         if (type == TennisCourtZone.ZoneType.IN) {
             if (++currentBallBounces >= 2) {
-                newScore = score.IncrementScore(currentPlayer);
+                if (owner == currentPlayer) {
+                    FinishPoint(1 - currentPlayer, ball);
+                } else {
+                    FinishPoint(currentPlayer, ball);
+                }
             }
         } else {
-            newScore = score.IncrementScore(1-currentPlayer);
+            FinishPoint(1 - currentPlayer, ball);
         }
-        Debug.Log(newScore[0] + " " + newScore[1]);
     }
 
     public void Service(int player) {
@@ -59,5 +60,13 @@ public class GameManager : NetworkBehaviour
             nextIdToCreate++;
         }
         return res;
+    }
+
+    void FinishPoint(int winnerId, Ball ball) {
+        pointInProgress = false;
+        int[] newScore = score.GetCurrentScore();
+        newScore = score.IncrementScore(winnerId);
+        ball.IsInGame = false;
+        Debug.Log("Score : " + newScore[0] + " - " + newScore[1]);
     }
 }

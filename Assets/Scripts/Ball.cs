@@ -9,10 +9,13 @@ public class Ball : NetworkBehaviour
 
     private float bounceForce = 3f;
 
+    public bool IsInGame {get; set;}
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        IsInGame = true;
     }
 
     // Update is called once per frame

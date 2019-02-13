@@ -21,7 +21,10 @@ public class TennisCourtZone : MonoBehaviour
 
     void OnTriggerEnter(Collider col) {
         if (col.CompareTag("Ball")) {
-            gameManager.CollisionDetected(type, player);
+            Ball ball = col.GetComponent<Ball>();
+            if (ball.IsInGame) {
+                gameManager.CollisionDetected(type, player, ball);
+            }
         }
     }
 
