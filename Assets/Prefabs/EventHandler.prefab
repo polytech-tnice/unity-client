@@ -90,5 +90,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   windSpeed: 0
   windDirection: {x: 0, y: 0, z: 0}
-  rigidbodies:
-  - {fileID: 0}
+  rigidbodies: []

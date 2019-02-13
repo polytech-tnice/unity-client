@@ -19,4 +19,8 @@ public class Score : MonoBehaviour
     public int[] IncrementScore(int player) {
         return AddScore(player, 1);
     }
+
+    public int[] GetCurrentScore() {
+        return score;
+    }
 }

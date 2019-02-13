@@ -15,6 +15,9 @@ public class GameManager : NetworkBehaviour
     public int CurrentPlayer { get { return currentPlayer; }}
     [SyncVar]
     private int currentPlayer;
+    
+    private int currentBallBounces;
+
 
     public bool PointInProgress { get { return pointInProgress; }}
     [SyncVar]
@@ -29,10 +32,12 @@ public class GameManager : NetworkBehaviour
     }
 
     public void CollisionDetected(TennisCourtZone.ZoneType type, int player) {
-        int[] newScore;
+        int[] newScore = score.GetCurrentScore();
         pointInProgress = false;
         if (type == TennisCourtZone.ZoneType.IN) {
-            newScore = score.IncrementScore(currentPlayer);
+            if (++currentBallBounces >= 2) {
+                newScore = score.IncrementScore(currentPlayer);
+            }
         } else {
             newScore = score.IncrementScore(1-currentPlayer);
         }
@@ -41,8 +46,10 @@ public class GameManager : NetworkBehaviour
 
     public void Service(int player) {
         if (isServer) {
+            Debug.Log("Service of player : " + player);
             currentPlayer = player;
             pointInProgress = true;
+            currentBallBounces = 0;
         }
     }
 
