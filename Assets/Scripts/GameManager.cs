@@ -9,7 +9,6 @@ public class GameManager : NetworkBehaviour
     [SerializeField]
     private Score score;
 
-    [SerializeField]
     private SocketIOComponent socket;
 
     public int CurrentPlayer { get { return currentPlayer; }}
@@ -18,6 +17,9 @@ public class GameManager : NetworkBehaviour
     
     private int currentBallBounces;
 
+    public bool ReadyForPoint { get { return readyForPoint; }}
+    [SyncVar]
+    private bool readyForPoint;
 
     public bool PointInProgress { get { return pointInProgress; }}
     [SyncVar]
@@ -29,6 +31,20 @@ public class GameManager : NetworkBehaviour
     void Start() {
         pointInProgress = false;
         currentPlayer = 0;
+        readyForPoint = true;
+
+        if (isServer) {
+            socket = GameObject.Find("SocketIO TNice(Clone)").GetComponent<SocketIOComponent>();
+
+            socket.On("connect", (SocketIOEvent e) =>
+            {
+                Debug.Log("Connected on game manager!");
+            });
+
+            socket.On("playPoint", (SocketIOEvent e) => {
+                this.readyForPoint = true;
+            });
+        }
     }
 
     public void CollisionDetected(TennisCourtZone.ZoneType type, int owner, Ball ball) {
@@ -52,6 +68,7 @@ public class GameManager : NetworkBehaviour
     public void Service(int player) {
         if (isServer) {
             Debug.Log("Service of player : " + player);
+            readyForPoint = false;
             currentPlayer = player;
             pointInProgress = true;
             currentBallBounces = 0;

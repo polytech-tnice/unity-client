@@ -18,22 +18,26 @@ public class EventApplier : MonoBehaviour
         socket = go.GetComponent<SocketIOComponent>();
 
         socket.On("actionEvent", (SocketIOEvent e) => {
+            Debug.Log(e.data);
             Dictionary<string, string> data = e.data.ToDictionary();
-            wind.windSpeed = int.Parse(data["speed"]);
 
-            switch(data["direction"]) {
-                case "Nord":
-                    wind.windDirection = new Vector3(0, 0, 1.0f);
-                    break;
-                case "Sud":
-                    wind.windDirection = new Vector3(0, 0, -1.0f);
-                    break;
-                case "Est":
-                    wind.windDirection = new Vector3(1.0f, 0, 0);
-                    break;
-                case "Ouest":
-                    wind.windDirection = new Vector3(-1.0f, 0, 0);
-                    break;
+            if (data.ContainsKey("speed")) {
+                wind.windSpeed = int.Parse(data["speed"]);
+
+                switch(data["direction"]) {
+                    case "Nord":
+                        wind.windDirection = new Vector3(0, 0, 1.0f);
+                        break;
+                    case "Sud":
+                        wind.windDirection = new Vector3(0, 0, -1.0f);
+                        break;
+                    case "Est":
+                        wind.windDirection = new Vector3(1.0f, 0, 0);
+                        break;
+                    case "Ouest":
+                        wind.windDirection = new Vector3(-1.0f, 0, 0);
+                        break;
+                }
             }
 
         });

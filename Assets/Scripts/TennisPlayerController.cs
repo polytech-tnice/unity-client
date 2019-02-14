@@ -17,6 +17,9 @@ public class TennisPlayerController : NetworkBehaviour
     [SerializeField]
     private GameObject tennisBallPrefab;
 
+    [SerializeField]
+    private Canvas waitCanvas;
+
     private Rigidbody rb;
 
     private NetworkClient client;
@@ -39,9 +42,24 @@ public class TennisPlayerController : NetworkBehaviour
     {
         if (!isLocalPlayer) {
             cam.enabled = false;
+            waitCanvas.enabled = false;
             return;
         }
         
+        waitCanvas.enabled = !gameManager.ReadyForPoint;
+
+        if (gameManager.ReadyForPoint && Input.GetButtonDown("Fire1") && !gameManager.PointInProgress)
+        {
+            CmdBallService(this.id);
+            this.client.Send(1002, new StringMessage("Service"));
+        }
+    }
+
+    void FixedUpdate() {
+        if (!isLocalPlayer) {
+            return;
+        }
+
         Vector3 localVelocity = transform.InverseTransformDirection(rb.velocity);
 
         localVelocity.x = Input.GetAxis("Horizontal") * speed;
@@ -50,10 +68,6 @@ public class TennisPlayerController : NetworkBehaviour
                 
         rb.velocity = transform.TransformDirection(localVelocity);
 
-        if (Input.GetButtonDown("Fire1") && !gameManager.PointInProgress) {
-            CmdBallService(this.id);
-            this.client.Send(1002, new StringMessage("Service"));
-        }
     }
 
     public int GetId() {
