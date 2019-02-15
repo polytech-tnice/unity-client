@@ -3478,12 +3478,51 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 6400911113647426202}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 6400911113647426205}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e45daeeca361d4e3897b664b8059883a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &6400911113647426205 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6400911113632775041, guid: ce81b07b71956ed8b8ca584a61961e9b,
+    type: 3}
+  m_PrefabInstance: {fileID: 6400911113647426202}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6400911113647426206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6400911113647426205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 206
+    i1: 129
+    i2: 176
+    i3: 123
+    i4: 113
+    i5: 149
+    i6: 110
+    i7: 216
+    i8: 184
+    i9: 202
+    i10: 88
+    i11: 74
+    i12: 97
+    i13: 150
+    i14: 30
+    i15: 155
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!4 &6643401802305760987 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6643401802305760987, guid: 8df88273262619906ba7ed8ada32de58,
