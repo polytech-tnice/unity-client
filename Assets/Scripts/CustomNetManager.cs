@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Networking.NetworkSystem;
 using UnityEngine.UI;
+using UnityEngine.XR;
 using UnityEngine.SceneManagement;
 using SocketIO;
 
@@ -25,6 +26,13 @@ public class CustomNetManager : NetworkManager
   private int curPlayerType = 0;
   private string gameName;
 
+  void Start() {
+    if (XRSettings.enabled) {
+      networkAddress = "192.168.0.25";
+      curPlayerType = 0;
+      StartClient();
+    }
+  }
   public void InitGameServer()
   {
     if (!socketIOInstantiated)

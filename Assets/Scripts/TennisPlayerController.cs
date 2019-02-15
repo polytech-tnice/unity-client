@@ -12,7 +12,7 @@ public class TennisPlayerController : NetworkBehaviour
     private float speed;
 
     [SerializeField]
-    private Camera cam;
+    private GameObject camera;
 
     [SerializeField]
     private GameObject tennisBallPrefab;
@@ -41,7 +41,7 @@ public class TennisPlayerController : NetworkBehaviour
     void Update()
     {
         if (!isLocalPlayer) {
-            cam.enabled = false;
+            camera.SetActive(false);
             waitCanvas.enabled = false;
             return;
         }
