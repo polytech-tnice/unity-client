@@ -351,7 +351,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  camera: {fileID: 0}
+  camera: {fileID: 4871911181675036806}
   tennisBallPrefab: {fileID: 8165228118922272959, guid: a69c4fcce4a02abd3a9b587cf1b3941b,
     type: 3}
   waitCanvas: {fileID: 4231570090641753831}
@@ -572,6 +572,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2160370945114856775}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4871911181675036806 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6802595453396049345, guid: 74e63f937fa519f489702c1f11ebb162,
+    type: 3}
+  m_PrefabInstance: {fileID: 2160370945114856775}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2396037310727985016
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -657,7 +663,7 @@ PrefabInstance:
     - target: {fileID: 8639886297698081334, guid: c086459f17e790045aabf5f2f40582ff,
         type: 3}
       propertyPath: m_TagString
-      value: Player
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4267145965658766250, guid: c086459f17e790045aabf5f2f40582ff, type: 3}
