@@ -100,16 +100,8 @@ MonoBehaviour:
   speed: 10
   lookSenitivity: 2
   lookSmoothDamp: 0.1
-  xRotation: 0
+  xRotation: 61.804
   yRotation: 0
-  xRotationV: 0
-  yRotationV: 0
-  currentXRotation: 0
-  currentYRotation: 0
-  lStickHorizontal: 0
-  lStickVertical: 0
-  lStickV: 0
-  lStickH: 0
 --- !u!114 &5961134404462337031
 MonoBehaviour:
   m_ObjectHideFlags: 0
