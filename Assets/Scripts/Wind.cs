@@ -9,8 +9,6 @@ public class Wind : MonoBehaviour
 
     public Vector3 windDirection;
 
-    [SerializeField]
-    private Rigidbody[] rigidbodies;
 
     // Start is called before the first frame update
     void Start()
@@ -20,9 +18,11 @@ public class Wind : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        foreach (Rigidbody rb in rigidbodies)
+        GameObject[] gos = GameObject.FindGameObjectsWithTag("Ball");
+        foreach (GameObject go in gos)
         {
-            MeshArea area = rb.GetComponent<MeshArea>();
+            MeshArea area = go.GetComponent<MeshArea>();
+            Rigidbody rb = go.GetComponent<Rigidbody>();
             float speed = windSpeed / 3.6f;
             float surface = area != null ? area.Area : 1.0f;
             rb.AddForce((0.5f * Mathf.Pow(speed, 2) * surface / 2) * windDirection.normalized);

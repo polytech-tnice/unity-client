@@ -12,7 +12,7 @@ public class TennisPlayerController : NetworkBehaviour
     private float speed;
 
     [SerializeField]
-    private GameObject camera;
+    private GameObject[] cameras;
 
     [SerializeField]
     private GameObject tennisBallPrefab;
@@ -41,7 +41,10 @@ public class TennisPlayerController : NetworkBehaviour
     void Update()
     {
         if (!isLocalPlayer) {
-            camera.SetActive(false);
+            foreach (GameObject c in cameras)
+            {
+                c.SetActive(false);
+            }
             waitCanvas.enabled = false;
             return;
         }
@@ -78,10 +81,10 @@ public class TennisPlayerController : NetworkBehaviour
     [Command]
     void CmdBallService(int playerId) {
         GameObject tennisBall = (GameObject)Instantiate(tennisBallPrefab,
-            transform.position + transform.forward + transform.up, Quaternion.identity);
+            transform.position + transform.forward + transform.up + transform.right, Quaternion.identity);
 
         Rigidbody rb = tennisBall.GetComponent<Rigidbody>();
-        rb.velocity = transform.up * 5f + transform.forward * 10f;
+        rb.velocity = transform.up * 7f;
 
         gameManager.Service(playerId);
 
