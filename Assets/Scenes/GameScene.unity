@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.4465785, g: 0.49641252, b: 0.574817, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.49641287, b: 0.5748173, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1686,6 +1686,7 @@ GameObject:
   - component: {fileID: 1173946853}
   - component: {fileID: 1173946852}
   - component: {fileID: 1173946851}
+  - component: {fileID: 1173946855}
   m_Layer: 0
   m_Name: ScoreBoardBehindP1
   m_TagString: Untagged
@@ -1766,6 +1767,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1173946855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1173946850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1675599da069e48dda9e7e9f0b6e6e92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreJ1: {fileID: 1619466216}
+  scoreJ2: {fileID: 20452533}
+  score: {fileID: 6400911113647426204}
 --- !u!1 &1287613189
 GameObject:
   m_ObjectHideFlags: 0
@@ -2898,6 +2914,7 @@ GameObject:
   - component: {fileID: 2066327546}
   - component: {fileID: 2066327545}
   - component: {fileID: 2066327544}
+  - component: {fileID: 2066327548}
   m_Layer: 0
   m_Name: ScoreBoardBehindP2
   m_TagString: Untagged
@@ -2978,6 +2995,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 177.15302, z: 0}
+--- !u!114 &2066327548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2066327543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1675599da069e48dda9e7e9f0b6e6e92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreJ1: {fileID: 2050937734}
+  scoreJ2: {fileID: 1853256790}
+  score: {fileID: 6400911113647426204}
 --- !u!1 &2129237845
 GameObject:
   m_ObjectHideFlags: 0
@@ -3438,6 +3470,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d06a8b91c7ca32eb9b894d6123702a89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6400911113647426204 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6400911113632775047, guid: ce81b07b71956ed8b8ca584a61961e9b,
+    type: 3}
+  m_PrefabInstance: {fileID: 6400911113647426202}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e45daeeca361d4e3897b664b8059883a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &6643401802305760987 stripped
