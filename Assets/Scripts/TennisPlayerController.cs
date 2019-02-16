@@ -64,14 +64,16 @@ public class TennisPlayerController : NetworkBehaviour
             return;
         }
 
-        Vector3 localVelocity = transform.InverseTransformDirection(rb.velocity);
-        Vector2 movement = OVRInput.Get(OVRInput.Axis2D.PrimaryTouchpad);
+        if (OVRInput.Get(OVRInput.Button.PrimaryTouchpad)) {
+            Vector3 localVelocity = transform.InverseTransformDirection(rb.velocity);
+            Vector2 movement = OVRInput.Get(OVRInput.Axis2D.PrimaryTouchpad);
 
-        localVelocity.x = movement.x * speed;
-        localVelocity.y = 0;
-        localVelocity.z = movement.y * speed;
-                
-        rb.velocity = transform.TransformDirection(localVelocity);
+            localVelocity.x = movement.x * speed;
+            localVelocity.y = 0;
+            localVelocity.z = movement.y * speed;
+                    
+            rb.velocity = transform.TransformDirection(localVelocity);
+        }
 
     }
 
