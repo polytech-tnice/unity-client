@@ -34,6 +34,7 @@ public class TennisPlayerController : NetworkBehaviour
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
         this.id = this.gameManager.CreateNewId();
+        Debug.Log("Player id " + this.id);
     }
 
 
