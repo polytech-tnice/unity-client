@@ -27,11 +27,8 @@ public class OVRRacket : MonoBehaviour
         }
 
         if (ControllerIsConnected) {
-            Vector3 position = OVRInput.GetLocalControllerPosition(Controller) + anchor.localPosition;
-            Quaternion rotation =  OVRInput.GetLocalControllerRotation (Controller) * initRotation;
-
-            transform.localPosition = position;
-            transform.localRotation = rotation;
+            transform.position = anchor.position;
+            transform.rotation = anchor.rotation * initRotation;
         }
     }
 
