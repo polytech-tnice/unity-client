@@ -16,7 +16,7 @@ public class OVRRacket : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        initRotation = transform.rotation;
+        initRotation = transform.localRotation;
     }
 
     // Update is called once per frame
