@@ -91,7 +91,9 @@ public class GameManager : NetworkBehaviour
 
   public int CreateNewId()
   {
+    Debug.Log(nextIdToCreate);
     int res = nextIdToCreate;
+    Debug.Log(nextIdToCreate);
     if (isServer)
     {
       nextIdToCreate++;

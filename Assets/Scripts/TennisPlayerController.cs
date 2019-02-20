@@ -32,9 +32,11 @@ public class TennisPlayerController : NetworkBehaviour
         rb = GetComponent<Rigidbody>();
         client = NetworkManager.singleton.client;
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        NetworkManager.singleton.client.connection.RegisterHandler(2000, OnRecieveId);
+    }
 
-        this.id = this.gameManager.CreateNewId();
-        Debug.Log("Player id " + this.id);
+    public override void OnStartAuthority() {
+        CmdGenerateId();
     }
 
 
@@ -82,6 +84,13 @@ public class TennisPlayerController : NetworkBehaviour
     }
 
     [Command]
+    void CmdGenerateId() {
+        this.id = this.gameManager.CreateNewId();
+        IntegerMessage idMessage = new IntegerMessage(this.id);
+        connectionToClient.Send(2000, idMessage);
+    }
+
+    [Command]
     void CmdBallService(int playerId) {
         GameObject tennisBall = (GameObject)Instantiate(tennisBallPrefab,
             transform.position + transform.forward + transform.up + transform.right, Quaternion.identity);
@@ -93,6 +102,11 @@ public class TennisPlayerController : NetworkBehaviour
 
         NetworkServer.Spawn(tennisBall);
 
+    }
+
+    void OnRecieveId(NetworkMessage netMsg) {
+        IntegerMessage idMessage = netMsg.ReadMessage<IntegerMessage>();
+        this.id = idMessage.value;
     }
 
 }
