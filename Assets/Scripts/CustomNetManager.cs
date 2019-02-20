@@ -28,7 +28,7 @@ public class CustomNetManager : NetworkManager
 
   void Start() {
     if (XRSettings.enabled) {
-      networkAddress = "192.168.43.214";
+      networkAddress = "192.168.0.25";
       curPlayerType = 0;
       StartClient();
     }

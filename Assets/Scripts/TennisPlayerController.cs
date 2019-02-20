@@ -54,7 +54,8 @@ public class TennisPlayerController : NetworkBehaviour
         
         waitCanvas.enabled = !gameManager.ReadyForPoint;
 
-        if (gameManager.ReadyForPoint && OVRInput.GetUp(OVRInput.Button.PrimaryIndexTrigger) && !gameManager.PointInProgress)
+        if (gameManager.ReadyToPlay && gameManager.ReadyForPoint
+            && OVRInput.GetUp(OVRInput.Button.PrimaryIndexTrigger) && !gameManager.PointInProgress)
         {
             CmdBallService(this.id);
             this.client.Send(1002, new StringMessage("Service"));
@@ -66,7 +67,7 @@ public class TennisPlayerController : NetworkBehaviour
             return;
         }
 
-        if (OVRInput.Get(OVRInput.Button.PrimaryTouchpad)) {
+        if (gameManager.ReadyToPlay && OVRInput.Get(OVRInput.Button.PrimaryTouchpad)) {
             Vector3 localVelocity = transform.InverseTransformDirection(rb.velocity);
             Vector2 movement = OVRInput.Get(OVRInput.Axis2D.PrimaryTouchpad);
 

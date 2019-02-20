@@ -25,6 +25,10 @@ public class GameManager : NetworkBehaviour
   [SyncVar]
   private bool pointInProgress;
 
+  public bool ReadyToPlay { get {
+    return nextIdToCreate >= 2;
+  }}
+
   [SyncVar]
   private int nextIdToCreate = 0;
 
@@ -91,9 +95,7 @@ public class GameManager : NetworkBehaviour
 
   public int CreateNewId()
   {
-    Debug.Log(nextIdToCreate);
     int res = nextIdToCreate;
-    Debug.Log(nextIdToCreate);
     if (isServer)
     {
       nextIdToCreate++;
