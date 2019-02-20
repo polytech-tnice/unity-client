@@ -14,6 +14,7 @@ public class GameManager : NetworkBehaviour
   public int CurrentPlayer { get { return currentPlayer; } }
   [SyncVar]
   private int currentPlayer;
+  private int startingPlayer;
 
   private int currentBallBounces;
 
@@ -25,6 +26,8 @@ public class GameManager : NetworkBehaviour
   [SyncVar]
   private bool pointInProgress;
 
+  private int pointCounter;
+
   public bool ReadyToPlay { get {
     return nextIdToCreate >= 2;
   }}
@@ -35,7 +38,7 @@ public class GameManager : NetworkBehaviour
   void Start()
   {
     pointInProgress = false;
-    currentPlayer = 0;
+    currentPlayer = startingPlayer = 0;
     readyForPoint = true;
 
     if (isServer)
@@ -112,6 +115,8 @@ public class GameManager : NetworkBehaviour
       newScore = score.IncrementScore(winnerId);
       ball.IsInGame = false;
       Debug.Log("Score : " + newScore[0] + " - " + newScore[1]);
+
+      currentPlayer = startingPlayer = 1 - startingPlayer;
     }
 
   }

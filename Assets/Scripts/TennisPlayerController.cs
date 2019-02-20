@@ -54,7 +54,7 @@ public class TennisPlayerController : NetworkBehaviour
         
         waitCanvas.enabled = !gameManager.ReadyForPoint;
 
-        if (gameManager.ReadyToPlay && gameManager.ReadyForPoint
+        if (gameManager.ReadyToPlay && gameManager.ReadyForPoint && gameManager.CurrentPlayer == this.id
             && OVRInput.GetUp(OVRInput.Button.PrimaryIndexTrigger) && !gameManager.PointInProgress)
         {
             CmdBallService(this.id);
