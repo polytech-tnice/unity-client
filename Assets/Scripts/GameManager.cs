@@ -84,7 +84,6 @@ public class GameManager : NetworkBehaviour
   public void StartPoint() {
     if (isServer) {
       readyForPoint = false;
-      currentPlayer = startingPlayer = 1 - startingPlayer;
 
       // Update score on node server
       Dictionary<string, string> data = new Dictionary<string, string>();
@@ -132,6 +131,7 @@ public class GameManager : NetworkBehaviour
       ball.IsInGame = false;
       Debug.Log("Score : " + newScore[0] + " - " + newScore[1]);
 
+      currentPlayer = startingPlayer = 1 - startingPlayer;
       StartPoint();
     }
   }
