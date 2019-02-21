@@ -21,11 +21,6 @@ public class GameManager : NetworkBehaviour
   public bool ReadyForPoint { get { return readyForPoint; } }
   [SyncVar]
   private bool readyForPoint;
-
-  public bool PointInProgress { get { return pointInProgress; } }
-  [SyncVar]
-  private bool pointInProgress;
-
   private int pointCounter;
 
   public bool ReadyToPlay { get {
@@ -35,9 +30,10 @@ public class GameManager : NetworkBehaviour
   [SyncVar]
   private int nextIdToCreate = 0;
 
+  public string GameName {get; set;}
+
   void Start()
   {
-    pointInProgress = false;
     currentPlayer = startingPlayer = 0;
     readyForPoint = true;
 
@@ -52,6 +48,7 @@ public class GameManager : NetworkBehaviour
 
       socket.On("playPoint", (SocketIOEvent e) =>
       {
+        Debug.Log("Ready for point");
         this.readyForPoint = true;
       });
     }
@@ -84,14 +81,31 @@ public class GameManager : NetworkBehaviour
     currentPlayer = player;
   }
 
+  public void StartPoint() {
+    if (isServer) {
+      readyForPoint = false;
+      currentPlayer = startingPlayer = 1 - startingPlayer;
+
+      // Update score on node server
+      Dictionary<string, string> data = new Dictionary<string, string>();
+      data["game_name"] = GameName;
+
+      JSONObject json = new JSONObject(data);
+      int[] currentScore = score.GetCurrentScore();
+      json.SetField("player1_score", currentScore[0]);
+      json.SetField("player2_score", currentScore[1]);
+
+      socket.Emit("updateScore", json);
+      Debug.Log("Send update score");
+    }
+  }
+
   public void Service(int player)
   {
     if (isServer)
     {
       Debug.Log("Service of player : " + player);
-      readyForPoint = false;
-      currentPlayer = player;
-      pointInProgress = true;
+      readyForPoint = false; // wait for effects to be decided
       currentBallBounces = 0;
     }
   }
@@ -102,6 +116,9 @@ public class GameManager : NetworkBehaviour
     if (isServer)
     {
       nextIdToCreate++;
+      if (nextIdToCreate == 2) {
+        StartPoint();
+      }
     }
     return res;
   }
@@ -110,14 +127,12 @@ public class GameManager : NetworkBehaviour
   {
     if (isServer)
     {
-      pointInProgress = false;
       int[] newScore = score.GetCurrentScore();
       newScore = score.IncrementScore(winnerId);
       ball.IsInGame = false;
       Debug.Log("Score : " + newScore[0] + " - " + newScore[1]);
 
-      currentPlayer = startingPlayer = 1 - startingPlayer;
+      StartPoint();
     }
-
   }
 }

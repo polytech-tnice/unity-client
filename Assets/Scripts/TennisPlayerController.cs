@@ -22,15 +22,12 @@ public class TennisPlayerController : NetworkBehaviour
 
     private Rigidbody rb;
 
-    private NetworkClient client;
-
     private int id;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        client = NetworkManager.singleton.client;
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         NetworkManager.singleton.client.connection.RegisterHandler(2000, OnRecieveId);
     }
@@ -54,11 +51,9 @@ public class TennisPlayerController : NetworkBehaviour
         
         waitCanvas.enabled = !gameManager.ReadyForPoint;
 
-        if (gameManager.ReadyToPlay && gameManager.ReadyForPoint && gameManager.CurrentPlayer == this.id
-            && OVRInput.GetUp(OVRInput.Button.PrimaryIndexTrigger) && !gameManager.PointInProgress)
+        if (gameManager.ReadyToPlay && OVRInput.GetUp(OVRInput.Button.PrimaryIndexTrigger))
         {
             CmdBallService(this.id);
-            this.client.Send(1002, new StringMessage("Service"));
         }
     }
 
@@ -67,7 +62,8 @@ public class TennisPlayerController : NetworkBehaviour
             return;
         }
 
-        if (gameManager.ReadyToPlay && OVRInput.Get(OVRInput.Button.PrimaryTouchpad)) {
+        if (gameManager.ReadyToPlay && OVRInput.Get(OVRInput.Button.PrimaryTouchpad)
+              && gameManager.ReadyForPoint && gameManager.CurrentPlayer == this.id) {
             Vector3 localVelocity = transform.InverseTransformDirection(rb.velocity);
             Vector2 movement = OVRInput.Get(OVRInput.Axis2D.PrimaryTouchpad);
 

@@ -55,10 +55,10 @@ public class CustomNetManager : NetworkManager
 
       socket.On("gameLaunched", (SocketIOEvent e) =>
       {
+        Debug.Log(launched);
         if (!launched)
         {
           StartServer();
-          NetworkServer.RegisterHandler(1002, OnBallService);
           gameName = e.data.ToDictionary()["name"];
           launched = true;
         }
@@ -132,6 +132,12 @@ public class CustomNetManager : NetworkManager
     ClientScene.AddPlayer(conn, 0, msg);
   }
 
+  public override void OnServerSceneChanged(string sceneName) {
+    base.OnServerSceneChanged(sceneName);
+    Debug.Log("Server started");
+    GameObject.Find("GameManager").GetComponent<GameManager>().GameName = gameName;
+  }
+
   public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId, NetworkReader extraMessageReader)
   {
     // Read client message and receive index
@@ -157,19 +163,5 @@ public class CustomNetManager : NetworkManager
       var player = Instantiate(controllerPrefab, GetStartPosition());
       NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
     }
-  }
-
-  void OnBallService(NetworkMessage netMsg)
-  {
-    StringMessage message = netMsg.ReadMessage<StringMessage>();
-
-    Dictionary<string, string> data = new Dictionary<string, string>();
-    data["game_name"] = gameName;
-
-    JSONObject json = new JSONObject(data);
-    json.SetField("player1_score", 0);
-    json.SetField("player2_score", 0);
-
-    socket.Emit("updateScore", json);
   }
 }
