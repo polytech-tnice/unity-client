@@ -11,11 +11,10 @@ public class ScoreBoardController : MonoBehaviour
 
   //public Score score;
 
-  private Score score;
+  public Score score;
 
   void Start()
   {
-    score = GameObject.Find("Score").GetComponent<Score>();
   }
 
   // Update is called once per frame
